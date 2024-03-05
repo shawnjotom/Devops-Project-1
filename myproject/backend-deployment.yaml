@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: todo-backend
+  name: myapp
   labels:
-    app: todo-backend
+    app: myapp
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: todo-backend
+      app: myapp
   template:
     metadata:
       labels:
-        app: todo-backend
+        app: myapp
     spec:
       containers:
-      - name: todo-backend
-        image: <dockerhub_username>/todo_backend:latest
+      - name: myapp
+        image: shawnjotom/myapp:latest
         ports:
         - containerPort: 8000
         env:
@@ -25,6 +25,6 @@ spec:
         - name: MYSQL_DATABASE
           value: "todo_db"
         - name: MYSQL_USER
-          value: "<mysql_username>"
+          value: "myuser"
         - name: MYSQL_PASSWORD
-          value: "<mysql_password>"
+          value: "mypassword"
