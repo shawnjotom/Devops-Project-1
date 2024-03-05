@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDo List</title>
+</head>
+<body>
+    <h1>ToDo List</h1>
+    <ul id="todo-list">
+        {% for todo in todos %}
+        <li id="todo-{{ todo.id }}">{{ todo.task }}</li>
+        {% endfor %}
+    </ul>
+    <form id="todo-form">
+        <input type="text" id="task-input" placeholder="Enter task...">
+        <button type="submit">Add Task</button>
+    </form>
+
+    <script>
+        document.getElementById('todo-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var taskInput = document.getElementById('task-input');
+            var task = taskInput.value.trim();
+            if (task !== '') {
+                fetch('/api/todos/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: JSON.stringify({'task': task})
+                })
+                .then(response => response.json())
+                .then(data => {
+                    var todoList = document.getElementById('todo-list');
+                    var todoItem = document.createElement('li');
+                    todoItem.textContent = data.task;
+                    todoItem.id = 'todo-' + data.id;
+                    todoList.appendChild(todoItem);
+                    taskInput.value = '';
+                })
+                .catch(error => console.error('Error:', error));
+            }
+        });
+    </script>
+</body>
+</html>
