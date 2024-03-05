@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: todo-frontend
+  name: myapp
   labels:
-    app: todo-frontend
+    app: myapp
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: todo-frontend
+      app: myapp
   template:
     metadata:
       labels:
-        app: todo-frontend
+        app: myapp
     spec:
       containers:
-      - name: todo-frontend
-        image: <dockerhub_username>/todo_frontend:latest
+      - name: myapp
+        image: shawnjotom/myapp:latest
         ports:
         - containerPort: 8000
         env:
